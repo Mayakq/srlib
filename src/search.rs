@@ -68,7 +68,6 @@ impl Search {
                 }
             },
         }
-       Ok(vec)
     }
     fn reg(&self, vec: &mut Vec<String>) -> Option<Error> {
         match &self.pallet {
@@ -77,7 +76,7 @@ impl Search {
                     let entry = entry.unwrap();
                     let f_path = entry.path().to_str().unwrap().to_string();
                     let f_name = entry.file_name().to_str().unwrap().to_string();
-                    Search::reg_search(vec, f_name, re);
+                    Search::reg_search(vec, f_name, re, f_path);
                 }
             }
             Pallet::Name(name) => {
@@ -86,9 +85,9 @@ impl Search {
         }
         None
     }
-    fn reg_search(vec: &mut Vec<String>, f_name: String, re: &Regex){
+    fn reg_search(vec: &mut Vec<String>, f_name: String, re: &Regex, path: String){
         for line in re.find_iter(&f_name) {
-            vec.push(line.as_str().to_string());
+            vec.push(path.clone());
         }
     }
     fn absolute(&self, vec: &mut Vec<String>) -> Option<Error> {

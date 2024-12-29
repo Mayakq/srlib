@@ -32,7 +32,7 @@ mod tests {
             crate::search::Searching::Absolute,
         );
         let res = result.start();
-        assert_eq!(*res.unwrap().get(0).unwrap(), "2010-03-14".to_string());
+        assert_eq!(*res.unwrap().get(0).unwrap(), "./tests/2010-03-14".to_string());
     }
     #[test]
     fn regex2() {
@@ -42,6 +42,6 @@ mod tests {
             crate::search::Searching::Absolute,
         );
         let res = result.start();
-        assert_eq!(*res.unwrap().get(0).unwrap(), "2010-03-14.txt".to_string());
+        assert_eq!(*res.unwrap().get(0).unwrap(), "./tests/2010-03-14.txt".to_string());
     }
 }
