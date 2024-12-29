@@ -8,4 +8,4 @@ regex = {version = "1.11.1", features = ["default"]}
 walkdir = {version = "2.5.0"}
 
 [lib]
-name = "searchlib"
+name = "search"
