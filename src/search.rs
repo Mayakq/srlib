@@ -43,21 +43,52 @@ impl Search {
                 }
             }
         }
-        match self.searching {
-            Searching::Absolute => {
-                let result = self.absolute(&mut vec);
+        match &self.pallet {
+            Pallet::Regular(regex) => {
+                let result = self.reg(&mut vec);
                 if result.is_none() {
                     return Ok(vec);
                 }
                 return Err(result.unwrap());
             }
-            Searching::Relative => {
-                let result = self.relative(&mut vec);
-                if result.is_none() {
-                    return Ok(vec);
+            Pallet::Name(name) => match self.searching {
+                Searching::Absolute => {
+                    let result = self.absolute(&mut vec);
+                    if result.is_none() {
+                        return Ok(vec);
+                    }
+                    return Err(result.unwrap());
                 }
-                return Err(result.unwrap());
+                Searching::Relative => {
+                    let result = self.relative(&mut vec);
+                    if result.is_none() {
+                        return Ok(vec);
+                    }
+                    return Err(result.unwrap());
+                }
+            },
+        }
+       Ok(vec)
+    }
+    fn reg(&self, vec: &mut Vec<String>) -> Option<Error> {
+        match &self.pallet {
+            Pallet::Regular(re) => {
+                for entry in WalkDir::new(&self.path).same_file_system(true) {
+                    let entry = entry.unwrap();
+                    let f_path = entry.path().to_str().unwrap().to_string();
+                    let f_name = entry.file_name().to_str().unwrap().to_string();
+                    Search::reg_search(vec, f_name, re);
+                }
             }
+            Pallet::Name(name) => {
+                unreachable!();
+            }
+        }
+        None
+    }
+    fn reg_search(vec: &mut Vec<String>, f_name: String, re: &Regex){
+        for line in re.find_iter(&f_name) {
+            vec.push(line.as_str().to_string());
         }
     }
     fn absolute(&self, vec: &mut Vec<String>) -> Option<Error> {
