@@ -1,2 +1,2 @@
 mod tests;
-mod search;
+pub mod search;
