@@ -11,19 +11,19 @@ pub enum Pallet {
     Name(String),
 }
 #[derive(Debug)]
-pub struct Search {
+pub struct Search<'a> {
     path: String,
-    pallet: Pallet,
-    searching: Searching,
+    pallet: &'a Pallet,
+    searching: &'a Searching,
 }
 #[derive(Debug)]
 pub enum Error {
     LenNameZero,
     LenRegularZero,
 }
-impl Search {
-    pub fn new(path: String, pallet: Pallet, searching: Searching) -> Self {
-        Self {
+impl<'a> Search<'_> {
+    pub fn new(path: String, pallet: &'a Pallet, searching: &'a Searching) -> Search<'a> {
+        Search {
             path,
             pallet,
             searching,
