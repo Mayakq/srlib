@@ -5,7 +5,7 @@ pub enum Searching {
     Absolute,
     Relative,
 }
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Pallet {
     Regular(Regex),
     Name(String),
